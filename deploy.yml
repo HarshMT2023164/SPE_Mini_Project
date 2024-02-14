@@ -9,17 +9,17 @@
         name: "harshmt2023164/calculator"
         source: pull
       register: docker_pull_result
-  - name: Your Playbook
-  hosts: localhost
-  gather_facts: true
-  tasks:
-    - name: Gathering Facts
-      ansible.builtin.setup:
-      gather_subset: all
-      gather_timeout: 30
+   - name: Your Playbook
+     hosts: localhost
+     gather_facts: true
+     tasks:
+      - name: Gathering Facts
+        ansible.builtin.setup:
+        gather_subset: all
+        gather_timeout: 30
 
-  environment:
-    ANSIBLE_HOST_KEY_CHECKING: "False"
+    environment:
+       ANSIBLE_HOST_KEY_CHECKING: "False"
 
     - name: Display Docker Pull Result
       debug:
