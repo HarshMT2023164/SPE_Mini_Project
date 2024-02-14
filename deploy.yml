@@ -10,9 +10,6 @@
         source: pull
       register: docker_pull_result
 
-    environment:
-       ANSIBLE_HOST_KEY_CHECKING: "False"
-
     - name: Display Docker Pull Result
       debug:
         var: docker_pull_result
