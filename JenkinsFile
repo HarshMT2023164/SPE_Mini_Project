@@ -1,0 +1,56 @@
+pipeline{
+    agent any
+    tools{
+        maven 'Maven'
+    }
+    stages{
+        stage('Build Maven'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/HarshMT2023164/SPE_Mini_Project.git']])
+                sh 'mvn clean install'
+            }
+        }
+        stage('Test') {
+            steps {
+                // To run test cases
+                sh 'mvn test'
+            }
+        }
+        stage('Build docker image'){
+            steps{
+                script{
+                    sh 'docker build -t harshmt2023164/calculator .'
+                }
+            }
+        }
+        stage('Push docker image to docker hub'){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'harshdockerpwd', variable: 'dockerpwd')]) {
+                        sh 'docker login -u harshmt2023164 -p ${dockerpwd}'
+                    }
+                    sh 'docker push harshmt2023164/calculator'
+                }
+            }
+        }
+
+        stage('Stop and Remove Existing Container') {
+                    steps {
+                        script {
+                            // Stop and remove existing container if it exists
+                            sh 'docker rm -f calc_container || true'
+                        }
+                    }
+                }
+         stage('Run Ansible Playbook') {
+            steps {
+                script {
+                    ansiblePlaybook(
+                        playbook: 'deploy.yml',
+                        inventory: 'inventory'
+                     )
+                }
+            }
+        }
+    }
+}

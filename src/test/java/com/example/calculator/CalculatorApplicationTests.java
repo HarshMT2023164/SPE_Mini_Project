@@ -38,12 +38,12 @@ class CalculatorApplicationTests {
 		Assertions.assertEquals(5, result);
 	}
 
-//	@Test
-//	public void testDivisionByZero() {
-//		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-//			CalculatorApplication.handleDivision(10, 0);
-//		});
-//	}
+	@Test
+	public void testDivisionByZero() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			CalculatorApplication.handleDivision(10, 0);
+		});
+	}
 
 	@Test
 	public void testNaturalLogarithm() {
